@@ -52,6 +52,7 @@
     <Compile Include="DataStructureList.Designer.cs">
       <DependentUpon>DataStructureList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Information.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DataStructureList.resx">
