@@ -3,48 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.IComparable;
 
 namespace DataStructureList
 {
-    internal class Information
+    [Serializable]
+    internal class Information : IComparable
     {
         private string Name;
         private string Category;
         private string Structure;
         private string Definition;
 
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+                return 1;
+            Information otherInformation = obj as Information;
+            if (otherInformation != null)
+                return otherInformation.Name.CompareTo(Name);
+            else
+                return 0;
+        }
+
         #region GETTERS/SETTERS
         public string getName()
         {
             return Name;
         }
-        public void setName(string Name)
+        public void setName(string newName)
         {
-            this.Name = Name;
+            Name = newName;
         }
         public string getCategory()
         {
             return Category;
         }
-        public void setCategory(string Category)
+        public void setCategory(string newCategory)
         {
-            this.Category = Category;
+            Category = newCategory;
         }
         public string getStructure()
         {
             return Structure;
         }
-        public void setStructure(string Structure)
+        public void setStructure(string newStructure)
         {
-            this.Structure = Structure;
+            Structure = newStructure;
         }
         public string getDefinition()
         {
             return Definition;
         }
-        public void setDefinition(string Definition)
+        public void setDefinition(string newDefinition)
         {
-            this.Definition = Definition;
+            Definition = newDefinition;
         }
         #endregion GETTERS/SETTERS
     }

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.listView = new System.Windows.Forms.ListView();
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
@@ -47,22 +49,34 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBoxStructure.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listView
             // 
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
+            this.columnHeaderName,
+            this.columnHeaderCategory});
             this.listView.HideSelection = false;
             this.listView.Location = new System.Drawing.Point(202, 69);
             this.listView.Name = "listView";
             this.listView.Size = new System.Drawing.Size(156, 225);
             this.listView.TabIndex = 0;
             this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.View = System.Windows.Forms.View.Details;
+            this.listView.Click += new System.EventHandler(this.listView_Click);
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Name";
+            this.columnHeaderName.Width = 91;
+            // 
+            // columnHeaderCategory
+            // 
+            this.columnHeaderCategory.Text = "Category";
+            this.columnHeaderCategory.Width = 61;
             // 
             // buttonAdd
             // 
@@ -113,7 +127,7 @@
             // radioButtonLinear
             // 
             this.radioButtonLinear.AutoSize = true;
-            this.radioButtonLinear.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonLinear.Location = new System.Drawing.Point(9, 19);
             this.radioButtonLinear.Name = "radioButtonLinear";
             this.radioButtonLinear.Size = new System.Drawing.Size(54, 17);
             this.radioButtonLinear.TabIndex = 6;
@@ -124,7 +138,7 @@
             // radioButtonNonLinear
             // 
             this.radioButtonNonLinear.AutoSize = true;
-            this.radioButtonNonLinear.Location = new System.Drawing.Point(66, 19);
+            this.radioButtonNonLinear.Location = new System.Drawing.Point(74, 19);
             this.radioButtonNonLinear.Name = "radioButtonNonLinear";
             this.radioButtonNonLinear.Size = new System.Drawing.Size(77, 17);
             this.radioButtonNonLinear.TabIndex = 7;
@@ -192,7 +206,7 @@
             this.groupBoxStructure.Controls.Add(this.radioButtonNonLinear);
             this.groupBoxStructure.Location = new System.Drawing.Point(27, 154);
             this.groupBoxStructure.Name = "groupBoxStructure";
-            this.groupBoxStructure.Size = new System.Drawing.Size(157, 43);
+            this.groupBoxStructure.Size = new System.Drawing.Size(157, 44);
             this.groupBoxStructure.TabIndex = 14;
             this.groupBoxStructure.TabStop = false;
             this.groupBoxStructure.Text = "Structure";
@@ -227,19 +241,18 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 421);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(384, 22);
             this.statusStrip1.TabIndex = 18;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // columnHeader1
+            // toolStripStatusLabel
             // 
-            this.columnHeader1.Text = "Name";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Category";
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // DataStructureList
             // 
@@ -269,6 +282,8 @@
             this.Load += new System.EventHandler(this.DataStructureList_Load);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,8 +310,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private System.Windows.Forms.ColumnHeader columnHeaderCategory;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     }
 }
 
