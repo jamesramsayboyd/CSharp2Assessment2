@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 //using System.IComparable;
 
 namespace DataStructureList
@@ -15,50 +16,69 @@ namespace DataStructureList
         private string Structure;
         private string Definition;
 
+        // Default Constructor
+        public Information()
+        { }
+
+        // Overloaded Constructor setting Name, Category, Structure
+        // and Definition fields at object instantiation
+        public Information(string NewName, string NewCategory, string NewStructure, string NewDefinition)
+        {
+            // Capitalizing first letter for Name property
+            Name = NewName.Substring(0, 1).ToUpper() + NewName.Substring(1);
+            Category = NewCategory;
+            Structure = NewStructure;
+            Definition = NewDefinition;
+        }
+
         public int CompareTo(object obj)
         {
-            if (obj == null)
-                return 1;
-            Information otherInformation = obj as Information;
-            if (otherInformation != null)
-                return otherInformation.Name.CompareTo(Name);
-            else
-                return 0;
+            Information compare = obj as Information;
+            return Name.CompareTo(compare.Name);
         }
 
         #region GETTERS/SETTERS
-        public string getName()
+        public string GetName()
         {
             return Name;
         }
-        public void setName(string newName)
+        public void SetName(string NewName)
         {
-            Name = newName;
+            // Capitalizing first letter
+            Name = NewName.Substring(0, 1).ToUpper() + NewName.Substring(1);
         }
-        public string getCategory()
+        public string GetCategory()
         {
             return Category;
         }
-        public void setCategory(string newCategory)
+        public void SetCategory(string NewCategory)
         {
-            Category = newCategory;
+            Category = NewCategory;
         }
-        public string getStructure()
+        public string GetStructure()
         {
             return Structure;
         }
-        public void setStructure(string newStructure)
+        public void SetStructure(string NewStructure)
         {
-            Structure = newStructure;
+            Structure = NewStructure;
         }
-        public string getDefinition()
+        public string GetDefinition()
         {
             return Definition;
         }
-        public void setDefinition(string newDefinition)
+        public void SetDefinition(string NewDefinition)
         {
-            Definition = newDefinition;
+            Definition = NewDefinition;
         }
         #endregion GETTERS/SETTERS
+
+        // Custom method for displaying objects in ListView
+        public ListViewItem Display()
+        {
+            ListViewItem lvi = new ListViewItem(GetName());
+            lvi.SubItems.Add(GetCategory());
+            return lvi;
+        }
     }
 }
