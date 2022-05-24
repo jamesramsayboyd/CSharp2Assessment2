@@ -18,9 +18,13 @@ namespace DataStructureList
         public DataStructureList()
         {
             InitializeComponent();
+            SetToolTips();
+            // Creating log file record Trace statement debugging output
             Stream debugOutput = File.Create("DebugOutput.txt");
             Trace.Listeners.Add(new TextWriterTraceListener(debugOutput));
             Trace.AutoFlush = true;
+            Trace.WriteLine("***Debug output for Data Structure List program***");
+            Trace.WriteLine("");
         }
         // Q6.2 Create a global List<T> of type Information called Wiki.
         List<Information> Wiki = new List<Information>();
@@ -68,7 +72,7 @@ namespace DataStructureList
         // Q6.5 Create a custom ValidName method which will take a parameter string
         // value from the Textbox Name and returns a Boolean after checking for duplicates.
         // Use the built in List<T> method “Exists” to answer this requirement.
-        #region VALID NAME / CHECKS
+        #region VALID NAME / CHECKS / UTILITIES
         public bool ValidName(string check)
         {
             Trace.WriteLine("Checking data name \"" + check + "\" for duplicate");
@@ -143,7 +147,20 @@ namespace DataStructureList
                     break;
             }
         }
-        #endregion VALID NAME / CHECKS
+
+        private void SetToolTips()
+        {
+            toolTip.SetToolTip(buttonAdd, "Enter data in all four fields to add it to the list");
+            toolTip.SetToolTip(buttonEdit, "Select an item from the list to edit its data");
+            toolTip.SetToolTip(buttonDelete, "Select an item from the list to delete it");
+            toolTip.SetToolTip(buttonLoad, "Load data from file \"wiki.bin\"");
+            toolTip.SetToolTip(buttonSave, "Save data to file \"wiki.bin\"");
+            toolTip.SetToolTip(buttonSearch, "Enter a data structure name in the textbox to search");
+            toolTip.SetToolTip(textBoxName, "Double-click to clear");
+            toolTip.SetToolTip(textBoxDefinition, "Double-click to clear");
+            toolTip.SetToolTip(textBoxSearch, "Double-click to clear");
+        }
+        #endregion VALID NAME / CHECKS / UTILITIES
 
         // Q6.6 Create two methods to highlight and return the values from the Radio button
         // GroupBox. The first method must return a string value from the selected radio
@@ -201,12 +218,15 @@ namespace DataStructureList
                 "Edit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (editChoice == DialogResult.Yes)
                 {
-                    // TODO: See if there's an edit/update method built-in
-                    //Information editedEntry = new Information(textBoxName.Text, comboBoxCategory.Text, RadioButtonString(), textBoxDefinition.Text);
-                    //Wiki.Add(editedEntry);
+                    // Alternate method
+                    //Wiki.RemoveAt(listView.SelectedIndices[0]);
+                    //AddEntry();
 
-                    Wiki.RemoveAt(listView.SelectedIndices[0]);
-                    AddEntry();
+                    int index = listView.SelectedIndices[0];
+                    Wiki[index].SetName(textBoxName.Text);
+                    Wiki[index].SetCategory(comboBoxCategory.Text);
+                    Wiki[index].SetStructure(RadioButtonString());
+                    Wiki[index].SetDefinition(textBoxDefinition.Text);
                     toolStripStatusLabel.Text = "Entry edited";
                     SortAndDisplay();
                     ClearAndReset();
@@ -229,7 +249,7 @@ namespace DataStructureList
         }
         #endregion SORT / DISPLAY
 
-        // Q6.10 Create a button method that will use the builtin binary search to find a
+        // Q6.10 Create a button method that will use the built-in binary search to find a
         // Data Structure name. If the record is found the associated details will populate
         // the appropriate input controls and highlight the name in the ListView. At the end
         // of the search process the search input TextBox must be cleared.
@@ -245,7 +265,8 @@ namespace DataStructureList
                 target.SetName(textBoxSearch.Text);
                 int search = Wiki.BinarySearch(target);
                 Trace.WriteLine("Searching for target \"" + target.GetName() + "\"");
-                Trace.WriteLine("Search function returns index " + search + "(positive = found, negative = not found)");
+                Trace.WriteLineIf(search >= 0, "Search function returns index " + search + ", target found");
+                Trace.WriteLineIf(search < 0, "Search function returns index " + search + ", target not found");
                 Trace.WriteLine("Exiting search");
                 Trace.WriteLine("");
                 if (search >= 0)
@@ -299,6 +320,7 @@ namespace DataStructureList
         {
             textBoxName.Clear();
             textBoxDefinition.Clear();
+            textBoxSearch.Clear();
             comboBoxCategory.SelectedItem = null;
             radioButtonLinear.Checked = false;
             radioButtonNonLinear.Checked = false;
@@ -323,6 +345,18 @@ namespace DataStructureList
             ClearAndReset();
             ResetColours();
         }
+
+        private void textBoxDefinition_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ClearAndReset();
+            ResetColours();
+        }
+
+        private void textBoxSearch_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ClearAndReset();
+            ResetColours();
+        }
         #endregion DOUBLE CLICK DISPLAY
 
         // Q6.14 Create two buttons for the manual open and save option; this must use a dialog
@@ -337,6 +371,7 @@ namespace DataStructureList
         {
             if (Wiki.Count > 0)
             {
+                Trace.WriteLine("Running SaveRecords() method");
                 Trace.WriteLine("Creating file \"wiki.bin\"");
                 using (var stream = File.Open("wiki.bin", FileMode.Create))
                 {
@@ -344,6 +379,7 @@ namespace DataStructureList
                     {
                         foreach (var item in Wiki)
                         {
+                            Trace.WriteLine("Stream position: " + stream.Position);
                             writer.Write(item.GetName());
                             writer.Write(item.GetCategory());
                             writer.Write(item.GetStructure());
@@ -352,6 +388,7 @@ namespace DataStructureList
                         }
                     }
                 }
+                Trace.WriteLine("All items saved");
                 toolStripStatusLabel.Text = "Saved to file \"wiki.bin\"";
             }
             else
